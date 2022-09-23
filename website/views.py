@@ -1,8 +1,11 @@
-from flask import Blueprint, render_template, request, flash, jsonify
+from crypt import methods
+import json
+
+from flask import Blueprint, render_template, request, flash, jsonify, redirect
 from flask_login import login_required, current_user
 from .models import Note
 from . import db
-import json
+from parser import getPageAvito
 
 views = Blueprint('views', __name__)
 
@@ -11,25 +14,39 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     if request.method == 'POST':
-        id = request.form.get('id')
-        title = request.form.get('title')
-        specific = request.form.get('specific')
         location = request.form.get('location')
-        price = request.form.get('price')
         
-        if len(title) < 1:
-            flash('Note is too short!', category='error')
-        else:
-            new_note = Note(
-                id = id,
-                title = title,
-                specific = specific,
-                location = location,
-                price = price,
-                user_id=current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-            flash('Note added!', category='success')
+
+
+
+
+
+
+
+
+
+
+        # id = request.form.get('id')
+        # title = request.form.get('title')
+        # specific = request.form.get('specific')
+        # location = request.form.get('location')
+        # price = request.form.get('price')
+
+
+
+        # if len(title) < 1:
+        #     flash('Note is too short!', category='error')
+        # else:
+        #     new_note = Note(
+        #         id = id,
+        #         title = title,
+        #         specific = specific,
+        #         location = location,
+        #         price = price,
+        #         user_id=current_user.id)
+        #     db.session.add(new_note)
+        #     db.session.commit()
+        #     flash('Note added!', category='success')
 
     return render_template("home.html", user=current_user)
 
@@ -45,3 +62,9 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+
+@views.route('/parse', methods=['GET', 'POST'])
+def parse_avito():
+    
+    return redirect('/')
